@@ -1,4 +1,4 @@
-import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
+/*import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
 import { useState, useRef, useEffect } from "react";
 import { Button, StyleSheet, Text, TouchableOpacity, View, Pressable } from "react-native";
 
@@ -93,5 +93,45 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 20,
     alignSelf: "center",
+  },
+});*/
+
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { getData } from "@services/api";
+
+const HomeScreen = () => {
+  const [data, setData] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getData();
+        setData(result.message);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.text}>{data || "Loading..."}</Text>
+    </View>
+  );
+};
+
+export default HomeScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    fontSize: 18,
   },
 });
